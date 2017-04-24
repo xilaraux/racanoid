@@ -22,15 +22,15 @@ export default class App extends Component {
     }
 
     isBallFacedSomething(x, y) {
+        const { width } = this.props;
         const { controller } = this.state;
-        const { width, height } = this.props;
 
         // 35 because of width of the controller
         if(x >= controller.x && x <= controller.x + 35 && y >= controller.y) {
             return true;
         }
 
-        if(x <= 0 || x >= width || y <= 0) {
+        if( (x <= 0 || x >= width) && y <= 0) {
             return true;
         }
 
