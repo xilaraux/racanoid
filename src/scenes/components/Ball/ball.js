@@ -28,9 +28,14 @@ class Ball extends React.Component {
 
     componentDidMount(){
          this.stopTimer = setInterval(() => {
-             this.props.onBallMoving({
-                 x: this.state.x + this.state.vector.x,
-                 y: this.state.y + this.state.vector.y})
+             console.log(this.props);
+             if(this.props.faced){
+                 this.calculateVector();
+             }
+             this.props.onBallMoving(
+                 this.state.x + this.state.vector.x,
+                 this.state.y + this.state.vector.y
+             )
          }, 1000/60);
     }
 
@@ -45,18 +50,18 @@ class Ball extends React.Component {
     }
 
     calculateVector() {
-        console.log(this.state);
         if (this.props.gameStatus === "IN_PROCESS") {
             if (this.props.faced) {
                 //collision with right border
-                if((this.state.x + BALL_RADIUS) > this.props.board.width ) {
+                if((this.props.coordinates.x + BALL_RADIUS) > this.props.board.width ) {
+                    console.log('right');
                     this.setState({
                         ...this.state,
-                        x: this.props.board.width - BALL_RADIUS,
                         vector: {
                             x: - this.state.vector.x
                         }
-                    })
+                    });
+                    this.props.onBallMoving(this.props.board.width - BALL_RADIUS, this.state.y)
                 }
 
                 //collision with left border
@@ -67,28 +72,29 @@ class Ball extends React.Component {
                         vector: {
                             x: - this.state.vector.x
                         }
-                    })
+                    });
+                    this.props.onBallMoving(BALL_RADIUS, this.state.y)
                 }
                 //collision with top border
                 else if((this.state.y + BALL_RADIUS) > this.props.board.height ) {
                     this.setState({
                         ...this.state,
-                        y: this.props.board.height - BALL_RADIUS,
                         vector: {
                             y: - this.state.vector.y
                         }
-                    })
+                    });
+                    this.props.onBallMoving(this.state.x, this.props.board.height - BALL_RADIUS)
                 }
 
                 //collision with bottom border
                 else if((this.state.y - BALL_RADIUS) < 0) {
                     this.setState({
                         ...this.state,
-                        y: BALL_RADIUS,
                         vector: {
                             y: - this.state.vector.y
                         }
-                    })
+                    });
+                    this.props.onBallMoving(this.state.x, BALL_RADIUS)
                 }
                 this.props.onBallMoving({x: this.state.x, y: this.state.y})
             } else {

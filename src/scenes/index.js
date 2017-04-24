@@ -30,7 +30,7 @@ export default class App extends Component {
             return true;
         }
 
-        if( (x <= 0 || x >= width) && y <= 0) {
+        if( (x <= 0 && x >= width) && y <= 0) {
             return true;
         }
 
