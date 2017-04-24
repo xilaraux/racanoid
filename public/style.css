@@ -3,6 +3,8 @@
     padding: 0;
 }
 
+
+
 #root {
     display: -webkit-box;
     display: -webkit-flex;
@@ -17,6 +19,10 @@
     margin-top: 50px;
 }
 
+#root>div {
+    width: 100%;
+}
+
 #field {
     position: relative;
     width: 600px;
@@ -26,7 +32,7 @@
 
 #paddle {
     position: absolute;
-    width: 50px;
+    width: 70px;
     height: 20px;
     background: black;
 }
@@ -39,5 +45,4 @@
     -moz-border-radius: 10px;
     border-radius: 10px;
     background: gray;
-    /*margin: 50px;*/
 }
