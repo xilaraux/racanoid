@@ -88,6 +88,7 @@ export default class App extends Component {
                     faced={ball.faced}
                     gameStatus={status}
                     board={{ width, height }}
+                    coordinates={{ ...ball }}
                     onBallMoving={this.onBallMoving}
                 />
                 <Panel>
