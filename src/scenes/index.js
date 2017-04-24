@@ -43,11 +43,12 @@ export default class App extends Component {
     onControllUser = event => {
         let tempX;
         const { keyCode } = event;
+        const { width } = this.props;
         const { controller: { x } } = this.state;
 
         if(keyCode === 97) {
             tempX = x - 5;
-        } else if( keyCode === 100) {
+        } else if( keyCode === 100 && x < width - 75) {
             tempX = x + 5;
         }
 

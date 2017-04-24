@@ -19,10 +19,6 @@
     margin-top: 50px;
 }
 
-#root>div {
-    width: 100%;
-}
-
 #field {
     position: relative;
     width: 600px;
