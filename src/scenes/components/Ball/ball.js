@@ -7,17 +7,35 @@ class Ball extends React.Component {
         super(props);
 
         this.state = {
-            ball: {
-                x: 10,
-                y: props.board.width / 2,
-                vector: {
-                    x: 0,
-                    y: 0,
+             x: props.coordinates.x,
+             y: props.coordinates.y,
+             vector: {
+                    x: 1,
+                    y: 1,
                     rad: this.changeDirection({x: 3, y: 0}, Math.random()*Math.PI*2)
-                }
-            },
+             },
             speedRate : 1
         }
+
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            x: nextProps.coordinates.x,
+            y: nextProps.coordinates.y
+        })
+    }
+
+    componentDidMount(){
+         this.stopTimer = setInterval(() => {
+             this.props.onBallMoving({
+                 x: this.state.x + this.state.vector.x,
+                 y: this.state.y + this.state.vector.y})
+         }, 1000/60);
+    }
+
+    componentWillUnmount(){
+        clearInterval(this.stopTimer);
     }
 
     changeDirection({ x, y }, rad) {
@@ -27,6 +45,7 @@ class Ball extends React.Component {
     }
 
     calculateVector() {
+        console.log(this.state);
         if (this.props.gameStatus === "IN_PROCESS") {
             if (this.props.faced) {
                 //collision with right border
@@ -72,6 +91,8 @@ class Ball extends React.Component {
                     })
                 }
                 this.props.onBallMoving({x: this.state.x, y: this.state.y})
+            } else {
+               this.props.onBallMoving({x: this.state.x + this.state.vector.x, y: this.state.y + this.state.vector.y})
             }
         } else {
             this.setState({
@@ -200,12 +221,11 @@ class Ball extends React.Component {
 
     render() {
         let style = {
-            top: '{this.state.x}px',
-            left: '{this.state.y}px',
+            top: `${this.props.coordinates.x}px`,
+            left: `${this.props.coordinates.y}px`,
             position: 'absolute'
         };
 
-        this.calculateVector();
 
         return (
             <div id="ball" style={style} />
